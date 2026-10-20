@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi amorcito 💗</title>
+  <link rel="stylesheet" href="s2.css">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="heart">♡</div>
+    <p class="subtitle">Un pequeño rincón para nosotros</p>
+    <h1>Para mi amorcito 💗</h1>
+    <p class="intro">
+      Entre tantas personas en el mundo,
+      qué bonito que seas tú.
+    </p>
+    <a href="#album" class="btn">Nuestros recuerdos ↓</a>
+  </header>
+
+  <main>
+    <section class="message">
+      <p class="tag">PARA TI, MI VIDA</p>
+      <h2>Si pudiera elegir otra vez...</h2>
+      <p>
+        Te elegiría a ti, en esta vida y en todas las que existan.
+        No porque todo sea perfecto, sino porque contigo hasta
+        los días simples tienen algo especial.
+      </p>
+      <p class="signature">Con cariño, para ti. 💌</p>
+    </section>
+
+    <section id="album" class="album">
+      <p class="tag">NUESTROS MOMENTOS</p>
+      <h2>Nuestro pequeño álbum 📸</h2>
+      <p class="description">
+        Elige tus fotos favoritas desde tu computadora y crea
+        aquí nuestro rincón de recuerdos.
+      </p>
+
+      <label for="photoInput" class="btn upload">
+        ＋ Agregar mis fotos
+      </label>
+      <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+        multiple
+        hidden
+      >
+
+      <p class="hint">Puedes seleccionar varias fotos a la vez.</p>
+
+      <div id="gallery" class="gallery">
+        <div class="empty">
+          <span>♡</span>
+          <p>Nuestros recuerdos aparecerán aquí...</p>
+        </div>
+      </div>
+
+      <button id="clearPhotos" class="clear-btn" type="button">
+        Quitar fotos de esta vista
+      </button>
+    </section>
+
+    <section class="reasons">
+      <p class="tag">POR SI ALGUNA VEZ LO OLVIDAS</p>
+      <h2>Algunas razones por las que te quiero 💕</h2>
+
+      <div class="reason-grid">
+        <article>♡<p>Por tu forma de ser.</p></article>
+        <article>☁<p>Por la tranquilidad que me das.</p></article>
+        <article>✧<p>Por hacer especiales los días normales.</p></article>
+        <article>∞<p>Porque siempre encuentro razones para elegirte.</p></article>
+      </div>
+    </section>
+
+    <section class="final-note">
+      <div class="big-heart">♥</div>
+      <h2>Mi lugar favorito...</h2>
+      <p>Es donde puedo compartir un momento contigo.</p>
+      <p class="signature">Te quiero, mi amorcito. 💗</p>
+    </section>
+  </main>
+
+  <footer>
+    Hecho con cariño, pensando en ti ♡
+  </footer>
+
+  <script>
+    const photoInput = document.getElementById("photoInput");
+    const gallery = document.getElementById("gallery");
+    const clearPhotos = document.getElementById("clearPhotos");
+
+    photoInput.addEventListener("change", function () {
+      const files = Array.from(this.files);
+
+      if (files.length === 0) return;
+
+      const emptyMessage = gallery.querySelector(".empty");
+      if (emptyMessage) emptyMessage.remove();
+
+      files.forEach(function (file) {
+        if (!file.type.startsWith("image/")) return;
+
+        const card = document.createElement("div");
+        card.className = "photo-card";
+
+        const img = document.createElement("img");
+        img.alt = "Nuestro recuerdo";
+        img.src = URL.createObjectURL(file);
+
+        const caption = document.createElement("p");
+        caption.textContent = "Un recuerdo contigo ♡";
+
+        card.appendChild(img);
+        card.appendChild(caption);
+        gallery.appendChild(card);
+      });
+
+      // Permite volver a elegir el mismo archivo.
+      this.value = "";
+    });
+
+    clearPhotos.addEventListener("click", function () {
+      gallery.innerHTML = `
+        <div class="empty">
+          <span>♡</span>
+          <p>Nuestros recuerdos aparecerán aquí...</p>
+        </div>
+      `;
+    });
+  </script>
+
+</body>
+</html>

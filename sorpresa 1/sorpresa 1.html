@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi amorcito 💗</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="floating-hearts">♡ 💗 ♡ 💜 ♡</div>
+        <p class="eyebrow">UN PEQUEÑO UNIVERSO PARA TI</p>
+        <h1>Para mi amorcito 💕</h1>
+        <p class="subtitle">
+            De todas las casualidades bonitas de mi vida,<br>
+            tú eres mi favorita.
+        </p>
+        <a href="#mensajes" class="main-button">Descubre tus mensajitos 💌</a>
+        <div class="hero-heart">♥</div>
+    </header>
+
+    <main>
+        <section class="dedication">
+            <span class="section-icon">🌷</span>
+            <h2>Un rinconcito para nosotros</h2>
+            <p>
+                Hice este pequeño lugar pensando en ti, mi niña bonita.
+                Aquí encontrarás palabras que quiero decirte, recuerdos
+                que quiero guardar y muchos motivos para recordarte
+                lo muchísimo que me encantas. 💗
+            </p>
+        </section>
+
+        <section class="gallery section" id="fotos">
+            <div class="section-heading">
+                <span class="mini-label">NUESTROS RECUERDOS</span>
+                <h2>Nuestro pequeño álbum 📸</h2>
+                <p>Un lugarcito para guardar nuestros momentos favoritos.</p>
+            </div>
+
+            <label for="photoInput" class="upload-button">
+                ＋ Agregar nuestras fotos
+            </label>
+            <input type="file" id="photoInput" accept="image/*" multiple hidden>
+
+            <div id="photoGallery" class="photo-grid">
+                <div class="photo-placeholder">
+                    <span>🌸</span>
+                    <p>Nuestro primer recuerdo</p>
+                    <small>Agrega una fotito aquí</small>
+                </div>
+                <div class="photo-placeholder">
+                    <span>🧸</span>
+                    <p>Un momento especial</p>
+                    <small>Una foto que te haga sonreír</small>
+                </div>
+                <div class="photo-placeholder">
+                    <span>💌</span>
+                    <p>Tú y yo</p>
+                    <small>Un recuerdo para siempre</small>
+                </div>
+            </div>
+            <p class="small-note">
+                Las fotos se muestran en esta página mientras esté abierta.
+                Si recargas, tendrás que seleccionarlas nuevamente.
+            </p>
+        </section>
+
+        <section class="featured-message">
+            <span class="sparkle">✧</span>
+            <p class="mini-label">UN MENSAJITO SOLO PARA TI</p>
+            <blockquote id="featuredText">
+                Si pudiera elegir un lugar para quedarme,
+                elegiría tus brazos, porque ahí hasta el silencio
+                se siente bonito. 💗
+            </blockquote>
+            <button id="newFeatured" class="light-button">
+                Otro mensajito 💕
+            </button>
+        </section>
+
+        <section class="messages section" id="mensajes">
+            <div class="section-heading">
+                <span class="mini-label">100 FORMAS DE DECIRTE TE QUIERO</span>
+                <h2>Mensajitos para mi niña 💌</h2>
+                <p>Escoge uno, cópialo y hazle sonreír el día.</p>
+            </div>
+
+            <div class="filters">
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Buscar un mensajito... 💗"
+                    aria-label="Buscar mensajes"
+                >
+                <select id="categoryFilter" aria-label="Filtrar por categoría">
+                    <option value="todos">Todos los mensajes</option>
+                    <option value="coquetos">Coquetos 😏</option>
+                    <option value="tiernos">Tiernos 🧸</option>
+                    <option value="romanticos">Románticos 💘</option>
+                    <option value="picaros">Pícaros 💋</option>
+                    <option value="extraño">Te extraño 🥹</option>
+                </select>
+            </div>
+
+            <p id="messageCount" class="message-count">100 mensajitos para ti 💕</p>
+            <div id="messageGrid" class="message-grid"></div>
+            <p id="noResults" class="no-results" hidden>
+                No encontré ese mensajito, mi amorcito. 💗
+            </p>
+        </section>
+
+        <section class="love-note section">
+            <span class="section-icon">💜</span>
+            <h2>Y si algún día te lo preguntas...</h2>
+            <p>
+                Sí, eres tú. Tú, con tu sonrisa, tus ocurrencias,
+                tus ojitos y esa forma tan tuya de hacerme feliz.
+                No necesito una fecha especial para recordarte
+                que me encantas. Cualquier día es bonito si estás tú.
+            </p>
+            <p class="signature">Con mucho cariño, para ti. ♡</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-heart">♥</div>
+        <p>Hecho con amor, pensando en ti.</p>
+        <small>Mi amorcito, mi niña bonita. 💗</small>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const messages = [
+            { category: "coquetos", text: "¿Tú sabes lo bonita que eres o tengo que recordártelo con besitos todos los días? Porque yo feliz de cumplir esa misión, preciosa. 💋❤️" },
+            { category: "coquetos", text: "Tengo una pequeña queja contigo, mi amor: no puedes ser tan linda y esperar que yo actúe normal. Me tienes pensando en ti a cada rato. 😭💕" },
+            { category: "coquetos", text: "¿Me prestas tus labios un ratito? Prometo devolvértelos con mucho cariño... aunque probablemente te pida otro ratito después. 🤭💋" },
+            { category: "coquetos", text: "Qué injusta eres, preciosa. Tú por allá siendo una hermosura y yo por acá con unas ganas enormes de abrazarte y darte besitos. ❤️" },
+            { category: "coquetos", text: "Si ser bonita fuera un delito, mi amorcito, tú tendrías cadena perpetua. Y yo sería el que te visita todos los días. JAJAJA. 💗" },
+            { category: "coquetos", text: "No sé qué perfume usas, pero seguro hueles a algo que provoca abrazarte y no soltarte nunca, mi niña bonita. 🥹💘" },
+            { category: "coquetos", text: "¿Puedes dejar de ser tan encantadora por cinco minutos? Es que intento concentrarme y mi cabecita vuelve a ti. 😔❤️" },
+            { category: "coquetos", text: "Si estuvieras aquí, ya te habría robado un besito, te abrazaría por la cintura y después te preguntaría si quieres otro. Spoiler: sí quiero. 🤭" },
+            { category: "coquetos", text: "Tú tienes algo que no sé explicar, preciosa. Solo sé que apareces, sonríes y de pronto mi día se vuelve muchísimo más bonito. 💕" },
+            { category: "coquetos", text: "Mi amor, creo que deberías hacerte responsable de lo mucho que me gustas. La solución es sencilla: muchos abrazos y besitos. 💋" },
+            { category: "coquetos", text: "¿Sabes qué te queda demasiado bonito? Una sonrisa, un abrazo mío y, si me permites elegir, mi apellido. JAJAJA. 😳💗" },
+            { category: "coquetos", text: "Qué ganas de mirarte a los ojitos y decirte que estás hermosa, para después darte un besito y comprobar si te pones nerviosa. 🤭💕" },
+            { category: "coquetos", text: "Tú sigue siendo así de linda, mi niña. Yo seguiré encontrando excusas para hablarte, molestarte y recordarte cuánto me encantas. ❤️" },
+            { category: "coquetos", text: "Tengo un plan perfecto para hoy: verte, abrazarte, darte besitos, hacerte reír y repetirlo hasta que se nos olvide la hora. 🧸💋" },
+            { category: "coquetos", text: "Si te tuviera al frente, no estaría escribiendo un mensaje tan largo. Estaría abrazándote y diciéndote al oído lo preciosa que eres. 💗" },
+            { category: "coquetos", text: "¿Tienes idea de lo peligrosa que eres? Porque con una sola sonrisa tuya ya me tienes queriendo pasar todo el día contigo. 😏❤️" },
+            { category: "coquetos", text: "Mi niña bonita, necesito una explicación científica de por qué me gustas tanto. Aunque sospecho que la respuesta es tu carita. 🥹💜" },
+            { category: "coquetos", text: "Si me das a elegir entre dormir cinco minutitos más o recibir un beso tuyo, probablemente me despierte antes de que termines de preguntar. 💋" },
+            { category: "coquetos", text: "No eres mi tarea favorita, pero definitivamente eres la distracción más bonita que tengo. Y no pienso dejar de distraerme contigo. JAJAJA. 💗" },
+            { category: "coquetos", text: "Ven, preciosa, que tengo un abrazo guardado para ti y unos besitos que ya llevan demasiado tiempo esperando a su dueña. ❤️‍🩹💋" },
+
+            { category: "tiernos", text: "Mi amorcito, me gusta hablar contigo incluso cuando no tenemos nada importante que contarnos. Contigo, hasta las conversaciones más simples se vuelven especiales. 💗" },
+            { category: "tiernos", text: "Ojalá pudiera abrazarte ahora mismo, acomodarte entre mis brazos y hacerte sentir que, por un ratito, todo está bien. 🧸🤍" },
+            { category: "tiernos", text: "Me gusta saber de ti, cómo estuvo tu día, qué te hizo reír y qué te preocupó. Quiero conocer hasta esas pequeñas cosas que casi nadie nota. ❤️" },
+            { category: "tiernos", text: "Mi niña, nunca olvides que eres una personita muy especial para mí. Me encanta tu forma de ser y la felicidad que traes a mis días. 🌷💕" },
+            { category: "tiernos", text: "Si hoy fue un día pesado, ven conmigo, amorcito. Puedes contarme todo, desahogarte o simplemente quedarte aquí mientras te recuerdo cuánto te quiero. 🥹" },
+            { category: "tiernos", text: "A veces basta con que me llegue un mensajito tuyo para que termine sonriendo frente al celular como un tontito. Tienes ese efecto en mí, preciosa. 💗" },
+            { category: "tiernos", text: "Quisiera poder regalarte un abrazo de esos que duran mucho, que no necesitan palabras y que hacen sentir que uno está exactamente donde quiere estar. 🤍" },
+            { category: "tiernos", text: "Mi amorcito, me alegra mucho que existas. Entre tantas personas en este mundo, qué bonito que nuestras vidas se hayan encontrado. 💜" },
+            { category: "tiernos", text: "No tienes que estar feliz todo el tiempo conmigo, mi niña. También puedes tener días difíciles, estar cansada o no saber qué decir. Te quiero igual. 🫶🏻" },
+            { category: "tiernos", text: "Quiero ser esa personita a la que puedas contarle las buenas noticias primero y también buscar cuando necesites un poquito de cariño. ❤️" },
+            { category: "tiernos", text: "Mi lugar favorito no tiene dirección, pero se parece mucho a tus brazos y a esa paz que siento cuando estoy contigo. 🧸💕" },
+            { category: "tiernos", text: "Me encanta cuando me cuentas tus cosas con emoción, incluso si son pequeñitas. Me gusta escucharte porque eres tú quien me las cuenta. 🌸" },
+            { category: "tiernos", text: "Si pudiera darte algo bonito hoy, te daría la oportunidad de verte con mis ojos, aunque fuera un ratito, para que entiendas cuánto vales para mí. 💗" },
+            { category: "tiernos", text: "Gracias por tus mensajitos, tus ocurrencias y por esos momentos en los que me haces reír sin siquiera proponértelo. Haces mis días más bonitos. ❤️" },
+            { category: "tiernos", text: "Espero que hoy te pase algo bonito, que comas rico, que descanses y que recuerdes que hay alguien por aquí pensando en ti con mucho cariño. 🌷" },
+            { category: "tiernos", text: "Me gustaría acompañarte en tus días felices, pero también estar cerquita cuando las cosas no salgan como esperabas. No tienes que poder con todo sola. 🤍" },
+            { category: "tiernos", text: "Mi niña bonita, no necesitas hacer nada especial para merecer cariño. Tal como eres, con tus virtudes y tus pequeños defectos, eres alguien muy especial para mí. 💕" },
+            { category: "tiernos", text: "Hay personas que hacen mucho ruido al llegar y otras que hacen bonito el mundo en silencio. Tú tienes esa forma tan tuya de volver especiales mis días. 💜" },
+            { category: "tiernos", text: "Quisiera guardar esos pequeños momentos en los que nos reímos por cualquier tontería, porque sospecho que algún día serán de mis recuerdos favoritos. 🥹" },
+            { category: "tiernos", text: "Mi amorcito, si hoy nadie te ha recordado lo increíble que eres, aquí estoy yo para decírtelo. Espero que nunca te falten motivos para sonreír. 💗" },
+
+            { category: "romanticos", text: "Si pudiera elegir un lugar para quedarme, elegiría tus brazos. Ahí hasta el silencio se siente bonito y el tiempo parece ir un poquito más despacio. ❤️" },
+            { category: "romanticos", text: "No sé cómo será cada día de nuestra historia, pero sí sé que quiero seguir conociéndote, compartir risas contigo y crear recuerdos que nos hagan sonreír. 💕" },
+            { category: "romanticos", text: "De todas las cosas bonitas que podrían pasarme en un día, una de mis favoritas es saber que puedo hablar contigo y compartir un pedacito de mi mundo. 💗" },
+            { category: "romanticos", text: "No necesito una fecha especial para decirte que me encantas. Si pienso en ti un martes cualquiera, ese martes ya tiene algo especial. 🌷" },
+            { category: "romanticos", text: "Me gustaría conocer todas tus versiones: la que se ríe por tonterías, la que se emociona, la que tiene sueño y la que necesita un abrazo sin explicaciones. 🤍" },
+            { category: "romanticos", text: "Si nuestra historia fuera un libro, no querría saltarme los capítulos tranquilos. También quiero esos días sencillos en los que simplemente disfrutamos estar juntos. 📖💗" },
+            { category: "romanticos", text: "Qué bonito coincidir contigo en este mundo tan grande. Entre tantas personas, conversaciones y caminos distintos, me alegra tener un espacio en tu vida. 💜" },
+            { category: "romanticos", text: "Quiero que acumulemos recuerdos pequeños: caminatas sin rumbo, conversaciones hasta tarde, fotos graciosas y abrazos que ninguno quiera terminar. 🥹" },
+            { category: "romanticos", text: "Cuando pienso en algo bonito que me gustaría vivir, muchas veces apareces tú en la escena. Supongo que ya te has ganado un lugar especial en mis planes. ❤️" },
+            { category: "romanticos", text: "No quiero prometerte una vida perfecta, mi amor. Quiero ofrecerte sinceridad, cariño, comunicación y las ganas de construir algo bonito contigo. 🤍" },
+            { category: "romanticos", text: "Me encanta descubrir cosas nuevas de ti. Cada detalle que compartes conmigo es como abrir una ventanita más a ese mundo tan bonito que llevas dentro. 🌸" },
+            { category: "romanticos", text: "Si pudiera repetir un momento bonito contigo, probablemente elegiría uno sencillo: estar a tu lado, escucharte hablar y mirarte sonreír. 💕" },
+            { category: "romanticos", text: "No sé si existe una forma perfecta de querer a alguien, pero quiero aprender la que te haga sentir querida, respetada y libre de ser tú misma. 💗" },
+            { category: "romanticos", text: "Hay algo especial en saber que, después de un día lleno de cosas, todavía tenemos un ratito para contarnos cómo nos fue. Me gusta mucho ese nosotros. ❤️" },
+            { category: "romanticos", text: "Mi amorcito, ojalá tengamos muchísimas oportunidades para celebrar las cosas buenas, superar las difíciles y seguir encontrando razones para elegirnos. 💜" },
+            { category: "romanticos", text: "Quiero conocer tus sueños, escuchar tus ideas y verte emocionarte cuando algo te sale bien. Me gusta imaginarte feliz, incluso cuando yo no estoy cerca. 🌷" },
+            { category: "romanticos", text: "A veces me pregunto cómo algo tan sencillo como conocerte puede convertirse en una parte tan bonita de mis días. No tengo una respuesta, pero me encanta. 💘" },
+            { category: "romanticos", text: "Si algún día miramos atrás y recordamos cómo empezó todo, espero que nos riamos de nuestras tonterías y nos sintamos felices por habernos dado la oportunidad. 🥹" },
+            { category: "romanticos", text: "No tienes que ser perfecta para ser especial para mí. Me gusta conocerte de verdad, con tus gustos, tus ideas, tus cambios y todo lo que te hace ser tú. ❤️" },
+            { category: "romanticos", text: "De todas las palabras bonitas que podría decirte, hoy elijo esta: gracias. Gracias por compartir conmigo tu tiempo, tus pensamientos y un poquito de tu vida. 💗" },
+
+            { category: "picaros", text: "Amorcito, necesito que vengas a resolver un problema urgente: tengo demasiadas ganas de abrazarte y la distancia está colaborando muy poco. ¿Qué hacemos? 😏💋" },
+            { category: "picaros", text: "Te tengo una sorpresa, preciosa: un abrazo larguito, tres besitos en la frente y todos los besos que consiga convencerte de darme. ¿Aceptas el trato? 🤭💕" },
+            { category: "picaros", text: "Mi niña, cuando te vea voy a intentar comportarme como una persona seria. No prometo nada, porque con esa carita tuya se me olvida el plan. 😳❤️" },
+            { category: "picaros", text: "Tengo ganas de acercarme despacito, abrazarte, mirarte a los ojos y preguntarte si puedo darte un beso. Aunque espero que tu sonrisa me dé una pista. 💋💗" },
+            { category: "picaros", text: "Te advierto que mis abrazos vienen con una pequeña trampa: una vez que te tenga cerquita, probablemente voy a querer quedarme así un buen rato. 🤭" },
+            { category: "picaros", text: "¿Qué se siente ser mi debilidad favorita? Porque yo solo sé que apareces y mi supuesta tranquilidad se va de vacaciones. JAJAJA. 😏💜" },
+            { category: "picaros", text: "Hoy tengo ganas de molestarte un poquito, hacerte reír, robarte un besito y después hacerme el inocente como si no hubiera sido yo. 🙈💋" },
+            { category: "picaros", text: "Si estuvieras a mi lado, ya te habría preguntado cinco veces si quieres un abrazo. Y si dices que sí, me hago el sorprendido. Qué buen actor soy. JAJAJA. ❤️" },
+            { category: "picaros", text: "Mi amor, no sé si quiero una cita elegante o una tarde de películas contigo. Bueno, sí sé: cualquiera, mientras pueda sentarme cerquita de ti. 💗" },
+            { category: "picaros", text: "Tengo una teoría: tus abrazos deben tener algún componente químico que genera dependencia. Necesito realizar más experimentos para comprobarla. 🧪💋" },
+
+            { category: "extraño", text: "Mi amorcito, hoy te extraño un poquito más de lo habitual. Me encantaría tenerte aquí, abrazarte fuerte y contarte todas esas cosas que por mensaje no se sienten igual. 🥹❤️" },
+            { category: "extraño", text: "Qué ganas de verte, preciosa. A veces quisiera que el día tuviera un botón para saltar directamente al momento en que por fin puedo abrazarte. 💗" },
+            { category: "extraño", text: "Te extraño de esas formas pequeñas: cuando pasa algo gracioso y quiero contártelo, cuando escucho una canción bonita o cuando simplemente me dan ganas de hablar contigo. 💜" },
+            { category: "extraño", text: "Si estuvieras aquí ahora, probablemente no haríamos nada extraordinario. Solo estaríamos juntitos, hablando de cualquier cosa, y eso me parecería un plan perfecto. 🤍" },
+            { category: "extraño", text: "Hoy mi corazón anda preguntando cuándo podrá volver a ver a su personita favorita. Yo también quiero saberlo, porque ya tengo muchos abrazos pendientes para ti. 🧸💕" },
+            { category: "extraño", text: "A veces la distancia hace que valore más esos momentos en los que sí podemos estar juntos. Por eso, cuando te vea, pienso aprovechar cada abrazo y cada sonrisa. ❤️" },
+            { category: "extraño", text: "Mi niña bonita, ojalá pudiera aparecer un ratito a tu lado, darte un beso en la frente, preguntarte cómo estás y quedarme escuchándote. Te extraño mucho. 🌷" },
+            { category: "extraño", text: "Me hacen falta tus abrazos, tus expresiones cuando te cuento algo y hasta esas pequeñas cosas que haces sin darte cuenta. Qué ganas de tenerte cerquita. 💗" },
+            { category: "extraño", text: "No quiero interrumpir tu día, amorcito; solo pasaba a recordarte que te extraño, que espero que estés bien y que tengo muchas ganas de verte. 💌" },
+            { category: "extraño", text: "Si pudiera mandarte algo además de este mensaje, te mandaría un abrazo de los que se sienten incluso después de separarse. Mientras tanto, aquí va todo mi cariño. 🤍" },
+
+            { category: "coquetos", text: "Confesión del día: reviso el celular con una esperanza sospechosamente grande cuando estoy esperando un mensaje tuyo. Creo que ya sabes quién tiene la culpa. JAJAJA. 💗" },
+            { category: "tiernos", text: "Espero que esta noche descanses bonito, mi niña. Que tus pensamientos estén tranquilos, que sueñes cosas lindas y que mañana encuentres nuevos motivos para sonreír. 🌙💕" },
+            { category: "romanticos", text: "Me gustaría que algún día recordemos todas estas conversaciones y nos riamos pensando en cómo nos decíamos cosas bonitas. Sería lindo tener tantos recuerdos contigo. 💌" },
+            { category: "picaros", text: "Tengo una propuesta muy seria, señorita: tú pones esa sonrisa tan bonita y yo pongo los abrazos y los besitos. Creo que es un trato bastante justo. 🤝💋" },
+            { category: "extraño", text: "Hoy vi algo bonito y pensé que te gustaría. Me pasa mucho contigo: encuentro pequeñas cosas durante el día y me dan ganas de compartirlas contigo. ❤️" },
+            { category: "tiernos", text: "No tienes que responderme inmediatamente ni estar disponible todo el tiempo, mi amor. Solo quería dejarte un poquito de cariño aquí para cuando tengas un momento libre. 💗" },
+            { category: "coquetos", text: "Estoy empezando a sospechar que mi tipo ideal es exactamente alguien como tú. Qué coincidencia tan sospechosa, ¿verdad, preciosa? 😏💜" },
+            { category: "romanticos", text: "Quiero que tengamos una relación en la que podamos reírnos mucho, hablar con honestidad, respetar nuestros espacios y sentir que estamos del mismo lado. ❤️" },
+            { category: "tiernos", text: "Mi niña, me encanta cuando te sientes cómoda siendo tú conmigo. Ojalá siempre encuentres en nuestras conversaciones un espacio para expresarte sin miedo. 🫶🏻" },
+            { category: "picaros", text: "Necesito que me expliques por qué una persona tan pequeña en mi pantalla puede ocupar tanto espacio en mis pensamientos. Esto merece una investigación. JAJAJA. 💋" },
+
+            { category: "romanticos", text: "Si pudiera darte un regalo que no se acabara, te regalaría momentos felices, conversaciones sinceras, abrazos oportunos y la tranquilidad de saber que te escucho. 🎁💗" },
+            { category: "tiernos", text: "Cuando tengas un día bonito, quiero escucharte contarme cada detalle. Y cuando tengas uno difícil, también quiero escucharte. Me importan tus días, todos ellos. 🤍" },
+            { category: "coquetos", text: "¿Sabes qué debería estar haciendo ahora? Mis pendientes. ¿Y qué estoy haciendo? Pensando en tu sonrisa. Definitivamente necesito que me devuelvas la concentración, señorita. 😭💕" },
+            { category: "extraño", text: "Tengo ganas de esas despedidas en las que uno dice que ya se va, pero termina quedándose cinco minutos más porque todavía quiere abrazar un poquito. 🥹💗" },
+            { category: "romanticos", text: "No quiero que lo nuestro sea solo decir palabras bonitas. Quiero que también se note en los detalles, en escucharnos, respetarnos y cuidarnos mutuamente. ❤️" },
+            { category: "picaros", text: "Estoy ahorrando abrazos para cuando te vea. La cantidad acumulada ya es preocupante, así que espero que tengas tiempo para ayudarme a gastarlos todos. 🤭💋" },
+            { category: "tiernos", text: "Mi amorcito, deseo que nunca tengas que fingir ser alguien diferente para sentirte querida por mí. Quiero conocer a la persona real que eres y seguir admirándola. 💜" },
+            { category: "coquetos", text: "Si cada vez que pienso en ti apareciera un corazoncito sobre mi cabeza, ya parecería una decoración de San Valentín caminando por la calle. JAJAJA. 💗" },
+            { category: "romanticos", text: "Me gusta pensar que el cariño se construye en los detalles: preguntar cómo estás, recordar lo que te gusta, escucharte y encontrar tiempo para compartir. Quiero seguir construyéndolo contigo. 🌷" },
+            { category: "extraño", text: "Ojalá pudiera adelantar el reloj hasta la próxima vez que nos veamos. Mientras llega ese momento, te mando un abrazo enorme y muchos besitos imaginarios. 💌" },
+
+            { category: "tiernos", text: "Antes de que termine tu día, quiero recordarte algo: no necesitas ganarte mi cariño haciendo cosas extraordinarias. Me encanta compartir la vida contigo tal como eres. ❤️" },
+            { category: "picaros", text: "Tengo ganas de tomarte de la mano, acercarme a ti y preguntarte qué hiciste para gustarme tanto. Aunque probablemente termine sonriendo y olvidando la pregunta. 😳💋" },
+            { category: "romanticos", text: "Me gusta la idea de que todavía nos queden tantas cosas por vivir, lugares por conocer, historias por contarnos y momentos sencillos que algún día serán recuerdos preciosos. 💕" },
+            { category: "coquetos", text: "Mi niña bonita, si fueras una notificación, serías la única que nunca silenciaría. Es más, probablemente activaría las notificaciones especiales. JAJAJA. 📱💗" },
+            { category: "extraño", text: "Me gustaría estar contigo ahora, sin apuros, sin mirar tanto la hora y sin tener que despedirnos pronto. Solo compartir un ratito bonito y disfrutar de estar juntos. 🤍" },
+            { category: "tiernos", text: "Gracias por dejarme conocer tu mundo, por compartir tus risas y por permitirme formar parte de tus días. Espero poder darte tanto cariño como el que tú despiertas en mí. 💜" },
+            { category: "romanticos", text: "Si alguna vez te preguntas por qué me gustas, no voy a tener una lista perfecta. Tendré muchos pequeños detalles, recuerdos y momentos que, juntos, me hacen elegirte. ❤️" },
+            { category: "picaros", text: "Última pregunta importante del día: ¿cuándo puedo verte para darte mis abrazos pendientes? Acepto respuestas acompañadas de una fecha y un besito. 🤭💋" },
+            { category: "tiernos", text: "Que descanses bonito, mi niña. Ojalá pudiera darte un besito de buenas noches y abrazarte hasta que te dé sueño. Por ahora, te mando todo mi cariño. 🌙💗" },
+            { category: "romanticos", text: "De todos los mensajes que podría dejarte, quiero que recuerdes este: me encantas, me importas y me hace feliz compartir contigo esta parte de mi vida. Gracias por ser tú, mi amorcito. 💗💜" }
+        ];
+
+        const messageGrid = document.getElementById("messageGrid");
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const messageCount = document.getElementById("messageCount");
+        const noResults = document.getElementById("noResults");
+        const toast = document.getElementById("toast");
+
+        const categoryNames = {
+            coquetos: "Coqueto 😏",
+            tiernos: "Tierno 🧸",
+            romanticos: "Romántico 💘",
+            picaros: "Pícaro 💋",
+            extraño: "Te extraño 🥹"
+        };
+
+        let toastTimer;
+
+        function showToast(text) {
+            toast.textContent = text;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+        }
+
+        function renderMessages() {
+            const query = searchInput.value.toLocaleLowerCase("es").trim();
+            const category = categoryFilter.value;
+
+            const filtered = messages
+                .map((message, index) => ({ ...message, originalIndex: index }))
+                .filter(message => {
+                    const matchesCategory =
+                        category === "todos" || message.category === category;
+                    const matchesSearch =
+                        message.text.toLocaleLowerCase("es").includes(query);
+                    return matchesCategory && matchesSearch;
+                });
+
+            messageGrid.innerHTML = "";
+            messageCount.textContent =
+                `${filtered.length} mensajito${filtered.length !== 1 ? "s" : ""} para ti 💕`;
+            noResults.hidden = filtered.length !== 0;
+
+            filtered.forEach(message => {
+                const card = document.createElement("article");
+                card.className = "message-card";
+
+                const number = document.createElement("span");
+                number.className = "message-number";
+                number.textContent =
+                    String(message.originalIndex + 1).padStart(2, "0");
+
+                const categoryLabel = document.createElement("span");
+                categoryLabel.className = "message-category";
+                categoryLabel.textContent = categoryNames[message.category];
+
+                const paragraph = document.createElement("p");
+                paragraph.className = "message-text";
+                paragraph.textContent = message.text;
+
+                const actions = document.createElement("div");
+                actions.className = "card-actions";
+
+                const copyButton = document.createElement("button");
+                copyButton.className = "copy-button";
+                copyButton.textContent = "Copiar mensajito ♡";
+                copyButton.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(message.text);
+                        showToast("¡Mensajito copiado, mi amor! 💗");
+                    } catch {
+                        const area = document.createElement("textarea");
+                        area.value = message.text;
+                        document.body.appendChild(area);
+                        area.select();
+                        const copied = document.execCommand("copy");
+                        area.remove();
+                        showToast(copied
+                            ? "¡Mensajito copiado! 💗"
+                            : "No se pudo copiar. Selecciona el texto manualmente.");
+                    }
+                });
+
+                actions.appendChild(copyButton);
+                card.append(number, categoryLabel, paragraph, actions);
+                messageGrid.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener("input", renderMessages);
+        categoryFilter.addEventListener("change", renderMessages);
+
+        document.getElementById("newFeatured").addEventListener("click", () => {
+            const random = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById("featuredText").textContent = random.text;
+        });
+
+        document.getElementById("photoInput").addEventListener("change", event => {
+            const files = Array.from(event.target.files || []);
+            const gallery = document.getElementById("photoGallery");
+
+            files.forEach(file => {
+                if (!file.type.startsWith("image/")) return;
+
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const card = document.createElement("div");
+                    card.className = "photo-card";
+
+                    const image = document.createElement("img");
+                    image.src = reader.result;
+                    image.alt = "Nuestro recuerdo bonito";
+                    image.loading = "lazy";
+
+                    const caption = document.createElement("p");
+                    caption.textContent = "Un recuerdo bonito 💗";
+
+                    card.append(image, caption);
+                    gallery.appendChild(card);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            event.target.value = "";
+        });
+
+        renderMessages();
+    </script>
+</body>
+</html>
