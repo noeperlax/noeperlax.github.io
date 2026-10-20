@@ -1,138 +1,273 @@
+from pathlib import Path
+import zipfile
 
-<!DOCTYPE html>
+base = Path("/mnt/data/aventura_amorcito")
+base.mkdir(exist_ok=True)
+
+html = r'''<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para mi amorcito 💗</title>
+  <title>Una aventura para mi amorcito 💗</title>
   <link rel="stylesheet" href="s2.css">
 </head>
 <body>
+  <div class="background-hearts" aria-hidden="true">
+    <span>♡</span><span>♡</span><span>♡</span><span>♡</span><span>♡</span>
+  </div>
 
-  <header class="hero">
-    <div class="heart">♡</div>
-    <p class="subtitle">Un pequeño rincón para nosotros</p>
-    <h1>Para mi amorcito 💗</h1>
-    <p class="intro">
-      Entre tantas personas en el mundo,
-      qué bonito que seas tú.
-    </p>
-    <a href="#album" class="btn">Nuestros recuerdos ↓</a>
+  <header class="top">
+    <p class="eyebrow">UNA PEQUEÑA AVENTURA</p>
+    <h1>Para mi amorcito <span>♡</span></h1>
+    <p class="top-subtitle">Tres pruebas, muchos corazones y un mensaje para ti.</p>
   </header>
 
   <main>
-    <section class="message">
-      <p class="tag">PARA TI, MI VIDA</p>
-      <h2>Si pudiera elegir otra vez...</h2>
-      <p>
-        Te elegiría a ti, en esta vida y en todas las que existan.
-        No porque todo sea perfecto, sino porque contigo hasta
-        los días simples tienen algo especial.
-      </p>
-      <p class="signature">Con cariño, para ti. 💌</p>
+    <section class="panel" id="gamePanel">
+      <div class="progress-wrap">
+        <span id="stageLabel">PRÓLOGO</span>
+        <div class="progress-track"><div id="progressBar"></div></div>
+      </div>
+
+      <section class="screen active" id="startScreen">
+        <div class="illustration">💌</div>
+        <p class="eyebrow">MISIÓN: ENCONTRAR EL TESORO</p>
+        <h2>¿Lista para jugar?</h2>
+        <p class="story">
+          He escondido un pequeño tesoro en esta página. Para encontrarlo,
+          tendrás que reunir corazones y responder unas preguntas.
+          No necesitas ganar nada: el premio ya estaba destinado a ti. 💗
+        </p>
+        <button class="primary-btn" id="startBtn">Comenzar aventura ✨</button>
+      </section>
+
+      <section class="screen" id="heartScreen">
+        <p class="eyebrow">PRUEBA 1 DE 3</p>
+        <h2>Recolecta los corazones</h2>
+        <p>Presiona <strong>5 corazones</strong> para desbloquear la siguiente prueba.</p>
+        <div class="score-line">Corazones encontrados: <strong><span id="heartCount">0</span>/5</strong></div>
+        <div class="heart-grid" id="heartGrid">
+          <button class="heart-pick" aria-label="Corazón 1">♡</button>
+          <button class="heart-pick" aria-label="Corazón 2">♡</button>
+          <button class="heart-pick" aria-label="Corazón 3">♡</button>
+          <button class="heart-pick" aria-label="Corazón 4">♡</button>
+          <button class="heart-pick" aria-label="Corazón 5">♡</button>
+        </div>
+        <p class="feedback" id="heartFeedback">Cada corazón representa un motivo para sonreír.</p>
+      </section>
+
+      <section class="screen" id="quizScreen">
+        <p class="eyebrow">PRUEBA 2 DE 3</p>
+        <h2>Una pregunta para ti</h2>
+        <div class="quiz-progress" id="quizProgress">Pregunta 1 de 3</div>
+        <h3 id="questionText">¿Qué hace especial un recuerdo?</h3>
+        <div class="answers" id="answerList"></div>
+        <p class="feedback" id="quizFeedback" aria-live="polite"></p>
+        <button class="primary-btn hidden" id="nextQuestionBtn">Siguiente pregunta →</button>
+      </section>
+
+      <section class="screen" id="finalScreen">
+        <div class="illustration">🎁</div>
+        <p class="eyebrow">MISIÓN COMPLETADA</p>
+        <h2>Encontraste el tesoro</h2>
+        <p class="story">
+          No era una llave ni una joya. Era una pequeña forma de recordarte
+          que eres alguien muy especial para mí.
+        </p>
+        <div class="love-letter">
+          <p>Mi amorcito,</p>
+          <p>
+            Si pudiera guardar un instante para volver a él cuando quisiera,
+            elegiría uno en el que estemos juntos, riéndonos por cualquier
+            tontería o simplemente compartiendo el silencio.
+          </p>
+          <p>
+            Gracias por ser parte de mi vida. Ojalá esta pequeña aventura
+            te saque una sonrisa, porque esa también es una de mis cosas
+            favoritas: saber que estás feliz.
+          </p>
+          <p class="letter-signature">Con todo mi cariño, para ti. ♡</p>
+        </div>
+        <button class="primary-btn" id="restartBtn">Jugar otra vez ↻</button>
+      </section>
     </section>
 
-    <section id="album" class="album">
-      <p class="tag">NUESTROS MOMENTOS</p>
-      <h2>Nuestro pequeño álbum 📸</h2>
-      <p class="description">
-        Elige tus fotos favoritas desde tu computadora y crea
-        aquí nuestro rincón de recuerdos.
+    <section class="panel album-panel" id="album">
+      <p class="eyebrow">NUESTROS RECUERDOS</p>
+      <h2>Una galería para nosotros 📸</h2>
+      <p class="section-copy">
+        Elige fotos guardadas en tu computadora para verlas aquí.
       </p>
-
-      <label for="photoInput" class="btn upload">
-        ＋ Agregar mis fotos
-      </label>
-      <input
-        type="file"
-        id="photoInput"
-        accept="image/*"
-        multiple
-        hidden
-      >
-
-      <p class="hint">Puedes seleccionar varias fotos a la vez.</p>
-
-      <div id="gallery" class="gallery">
-        <div class="empty">
+      <label class="primary-btn upload-btn" for="photoInput">＋ Elegir mis fotos</label>
+      <input type="file" id="photoInput" accept="image/*" multiple hidden>
+      <p class="tiny-note">Puedes seleccionar varias imágenes a la vez.</p>
+      <div class="gallery" id="gallery">
+        <div class="empty-gallery">
           <span>♡</span>
-          <p>Nuestros recuerdos aparecerán aquí...</p>
+          <p>Tus fotos aparecerán aquí</p>
         </div>
       </div>
-
-      <button id="clearPhotos" class="clear-btn" type="button">
-        Quitar fotos de esta vista
-      </button>
+      <button class="text-btn" id="clearPhotos" type="button">Quitar fotos de esta vista</button>
     </section>
 
-    <section class="reasons">
-      <p class="tag">POR SI ALGUNA VEZ LO OLVIDAS</p>
-      <h2>Algunas razones por las que te quiero 💕</h2>
-
-      <div class="reason-grid">
-        <article>♡<p>Por tu forma de ser.</p></article>
-        <article>☁<p>Por la tranquilidad que me das.</p></article>
-        <article>✧<p>Por hacer especiales los días normales.</p></article>
-        <article>∞<p>Porque siempre encuentro razones para elegirte.</p></article>
-      </div>
-    </section>
-
-    <section class="final-note">
-      <div class="big-heart">♥</div>
-      <h2>Mi lugar favorito...</h2>
-      <p>Es donde puedo compartir un momento contigo.</p>
-      <p class="signature">Te quiero, mi amorcito. 💗</p>
-    </section>
+    <footer>Hecho con cariño, pensando en ti <span>♡</span></footer>
   </main>
 
-  <footer>
-    Hecho con cariño, pensando en ti ♡
-  </footer>
-
   <script>
+    const screens = [...document.querySelectorAll(".screen")];
+    const stageLabel = document.getElementById("stageLabel");
+    const progressBar = document.getElementById("progressBar");
+
+    function showScreen(id, stage, progress) {
+      screens.forEach(screen => screen.classList.toggle("active", screen.id === id));
+      stageLabel.textContent = stage;
+      progressBar.style.width = progress + "%";
+      document.getElementById("gamePanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      showScreen("heartScreen", "PRUEBA 1", 25);
+    });
+
+    let heartsFound = 0;
+    document.querySelectorAll(".heart-pick").forEach(button => {
+      button.addEventListener("click", () => {
+        if (button.disabled) return;
+        button.disabled = true;
+        button.classList.add("collected");
+        button.textContent = "♥";
+        heartsFound++;
+        document.getElementById("heartCount").textContent = heartsFound;
+        const feedback = document.getElementById("heartFeedback");
+        feedback.textContent = heartsFound < 5
+          ? ["¡Uno para tu sonrisa! 💗", "¡Otro recuerdo bonito! ✨", "Vas muy bien, amorcito. ♡", "Casi lo logras..."][heartsFound - 1]
+          : "¡Todos reunidos! La siguiente prueba te espera. 💕";
+        if (heartsFound === 5) {
+          setTimeout(() => {
+            currentQuestion = 0;
+            showScreen("quizScreen", "PRUEBA 2", 50);
+            renderQuestion();
+          }, 700);
+        }
+      });
+    });
+
+    const questions = [
+      {
+        question: "¿Qué hace especial un recuerdo?",
+        answers: ["Que sea caro", "La persona con quien lo compartes", "Que dure exactamente una hora"],
+        correct: 1,
+        success: "Exacto. Las personas pueden convertir un momento sencillo en algo inolvidable. 💗"
+      },
+      {
+        question: "¿Cuál sería un buen plan juntos?",
+        answers: ["Reírnos por cualquier tontería", "Competir por quién se enoja más", "Mirar el reloj todo el tiempo"],
+        correct: 0,
+        success: "¡Esa suena genial! A veces los mejores planes son los más simples. 🌷"
+      },
+      {
+        question: "¿Qué representa el tesoro de esta aventura?",
+        answers: ["Una contraseña secreta", "Un premio de verdad", "El cariño detrás de este detalle"],
+        correct: 2,
+        success: "¡Lo encontraste! El tesoro era el cariño con el que se hizo esta página. 💌"
+      }
+    ];
+
+    let currentQuestion = 0;
+    function renderQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("quizProgress").textContent = `Pregunta ${currentQuestion + 1} de ${questions.length}`;
+      document.getElementById("questionText").textContent = q.question;
+      document.getElementById("quizFeedback").textContent = "";
+      const list = document.getElementById("answerList");
+      list.innerHTML = "";
+      document.getElementById("nextQuestionBtn").classList.add("hidden");
+
+      q.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.className = "answer-btn";
+        button.textContent = answer;
+        button.addEventListener("click", () => {
+          [...list.children].forEach(item => item.disabled = true);
+          if (index === q.correct) {
+            button.classList.add("correct");
+            document.getElementById("quizFeedback").textContent = q.success;
+          } else {
+            button.classList.add("try-again");
+            document.getElementById("quizFeedback").textContent =
+              "No pasa nada, inténtalo otra vez. 💕";
+            [...list.children].forEach(item => item.disabled = false);
+            button.disabled = true;
+            return;
+          }
+          const next = document.getElementById("nextQuestionBtn");
+          next.textContent = currentQuestion === questions.length - 1
+            ? "Descubrir el tesoro 💌"
+            : "Siguiente pregunta →";
+          next.classList.remove("hidden");
+        });
+        list.appendChild(button);
+      });
+    }
+
+    document.getElementById("nextQuestionBtn").addEventListener("click", () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        renderQuestion();
+      } else {
+        showScreen("finalScreen", "TESORO ENCONTRADO", 100);
+      }
+    });
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      heartsFound = 0;
+      document.getElementById("heartCount").textContent = "0";
+      document.querySelectorAll(".heart-pick").forEach(button => {
+        button.disabled = false;
+        button.classList.remove("collected");
+        button.textContent = "♡";
+      });
+      showScreen("startScreen", "PRÓLOGO", 0);
+    });
+
+    // Las fotos elegidas se muestran localmente mientras la página está abierta.
     const photoInput = document.getElementById("photoInput");
     const gallery = document.getElementById("gallery");
-    const clearPhotos = document.getElementById("clearPhotos");
+    const objectUrls = [];
 
     photoInput.addEventListener("change", function () {
-      const files = Array.from(this.files);
+      const files = [...this.files].filter(file => file.type.startsWith("image/"));
+      if (!files.length) return;
+      const empty = gallery.querySelector(".empty-gallery");
+      if (empty) empty.remove();
 
-      if (files.length === 0) return;
+      files.forEach(file => {
+        const url = URL.createObjectURL(file);
+        objectUrls.push(url);
 
-      const emptyMessage = gallery.querySelector(".empty");
-      if (emptyMessage) emptyMessage.remove();
-
-      files.forEach(function (file) {
-        if (!file.type.startsWith("image/")) return;
-
-        const card = document.createElement("div");
+        const card = document.createElement("article");
         card.className = "photo-card";
-
-        const img = document.createElement("img");
-        img.alt = "Nuestro recuerdo";
-        img.src = URL.createObjectURL(file);
-
+        const image = document.createElement("img");
+        image.src = url;
+        image.alt = "Un recuerdo especial";
         const caption = document.createElement("p");
         caption.textContent = "Un recuerdo contigo ♡";
-
-        card.appendChild(img);
-        card.appendChild(caption);
+        card.append(image, caption);
         gallery.appendChild(card);
       });
-
-      // Permite volver a elegir el mismo archivo.
       this.value = "";
     });
 
-    clearPhotos.addEventListener("click", function () {
-      gallery.innerHTML = `
-        <div class="empty">
-          <span>♡</span>
-          <p>Nuestros recuerdos aparecerán aquí...</p>
-        </div>
-      `;
+    document.getElementById("clearPhotos").addEventListener("click", () => {
+      objectUrls.forEach(url => URL.revokeObjectURL(url));
+      objectUrls.length = 0;
+      gallery.innerHTML = '<div class="empty-gallery"><span>♡</span><p>Tus fotos aparecerán aquí</p></div>';
     });
   </script>
-
 </body>
 </html>
+'''
+
+
+
